@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tomcat-3001
+  namespace: t-dev
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  template:
+    metadata:
+      labels:
+        app: tomcat-3001
+    spec:
+      containers:
+      - name: tomcat-3001
+        image: 192.168.98.121/iqx/registry-service:20170908
+        livenessProbe:
+            httpGet:
+              path: /health
+              port: 23001
+            initialDelaySeconds: 15
+            timeoutSeconds: 15
+        resources:
+          # keep request = limit to keep this container in guaranteed class
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        ports:
+        - containerPort: 23001
+        volumeMounts:
+        - mountPath: /data/conf/
+          name: tomcat-conf
+      volumes:
+      - name: tomcat-conf
+        configMap:
+          name: tomcat-conf

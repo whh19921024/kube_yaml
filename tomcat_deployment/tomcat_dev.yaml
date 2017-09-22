@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tomcat
+  namespace: t-dev
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: 192.168.98.121/nginx/tomcat:1f0fe7b
+        resources:
+          # keep request = limit to keep this container in guaranteed class
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /data/conf/
+          name: tomcat-conf
+      volumes:
+      - name: tomcat-conf
+        configMap:
+          name: tomcat-conf
+#        livenessProbe:
+#          httpGet:
+#            path: /
+#            port: 9090
+#          initialDelaySeconds: 30
+#          timeoutSeconds: 30
