@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+spec:
+  rules:
+  - host: n17.my.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx1-7
+          servicePort: 80
+  - host: n18.my.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx1-8
+          servicePort: 80
