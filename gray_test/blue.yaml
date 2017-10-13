@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: blue-rc
+  labels:
+    name: blue-rc
+spec:
+  replicas: 1
+  selector:
+    name: blue-pod
+  template:
+    metadata:
+      labels:
+        name: blue-pod
+    spec:
+      containers:
+      - name: blue
+        image: 192.168.98.121/nginx/lamp:gray
+        env:
+        - name: VAR_LABEL
+          value: 'blue'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue
+spec:
+  type: NodePort
+  selector:
+    name: blue-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 8101
+    name: http

@@ -17,7 +17,7 @@ spec:
         resources:
           # keep request = limit to keep this container in guaranteed class
           limits:
-            cpu: 1000m
+            cpu: 900m
             memory: 512Mi
           requests:
             cpu: 100m
