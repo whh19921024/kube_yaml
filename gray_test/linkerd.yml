@@ -25,11 +25,11 @@ data:
       label: outgoing
       interpreter:
         kind: io.l5d.namerd
-        dst: /$/inet/4100
+        dst: /$/inet/namerd.t-dev.svc.cluster.local/4100
         namespace: internal
         transformers:
         - kind: io.l5d.k8s.daemonset
-          namespace: default
+          namespace: t-dev
           port: incoming
           service: l5d
       servers:
@@ -43,7 +43,7 @@ data:
       label: incoming
       interpreter:
         kind: io.l5d.namerd
-        dst: /$/inet/4100
+        dst: /$/inet/namerd.t-dev.svc.cluster.local/4100
         namespace: internal
         transformers:
         - kind: io.l5d.k8s.localnode
@@ -55,7 +55,7 @@ data:
       label: external
       interpreter:
         kind: io.l5d.namerd
-        dst: /$/inet/4100
+        dst: /$/inet/namerd.t-dev.svc.cluster.local/4100
         namespace: external
       servers:
       - port: 4142
@@ -64,10 +64,10 @@ data:
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
+  namespace: t-dev
   labels:
     app: l5d
   name: l5d
-  namespace: t-dev
 spec:
   template:
     metadata:
@@ -113,8 +113,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: l5d
   namespace: t-dev
+  name: l5d
 spec:
   selector:
     app: l5d

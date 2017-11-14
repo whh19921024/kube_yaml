@@ -1,2 +1,2 @@
-/host=>/#/io.l5d.k8s/default/http;
+/host=>/#/io.l5d.k8s/t-dev/http;
 /http/*/*/*=>8*/host/blue&2*/host/green;
