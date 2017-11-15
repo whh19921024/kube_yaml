@@ -113,7 +113,7 @@ data:
       echo "external namespace already exists"
     else
       echo "
-      /host       => /#/io.l5d.k8s/default/http/hello;
+      /host       => /#/io.l5d.k8s/t-dev/http/hello;
       /svc/*      => /host;
       " | namerctl dtab create external -
     fi
@@ -122,7 +122,7 @@ data:
       echo "internal namespace already exists"
     else
       echo "
-      /srv        => /#/io.l5d.k8s/default/http;
+      /srv        => /#/io.l5d.k8s/t-dev/http;
       /host       => /srv;
       /tmp        => /srv;
       /svc        => /host;
@@ -150,7 +150,7 @@ spec:
         image: linkerd/namerctl:0.8.6
         env:
         - name: NAMERCTL_BASE_URL
-          value: http://namerd.default.svc.cluster.local:4180
+          value: http://namerd.t-dev.svc.cluster.local:4180
         command:
         - "/namerctl/createNs.sh"
         volumeMounts:

@@ -108,8 +108,11 @@ data:
       echo "external namespace already exists"
     else
       echo "
-      /host       => /#/io.l5d.k8s/default/http;
-      /svc/*      => 8*/host/blue&2*/host/green;
+      /host=>/#/io.l5d.k8s/default/http;
+      /host       => /srv;
+      /tmp        => /srv;
+      /svc        => /host;
+      /http/*/*/*=>8*/host/blue&2*/host/green;
       " | namerctl dtab create external -
     fi
 
@@ -117,12 +120,11 @@ data:
       echo "internal namespace already exists"
     else
       echo "
-      /srv        => /#/io.l5d.k8s/default/http;
+      /host=>/#/io.l5d.k8s/default/http;
       /host       => /srv;
       /tmp        => /srv;
       /svc        => /host;
-      /host/blue => /srv/blue;
-      /host/green => /srv/green;
+      /http/*/*/*=>8*/host/blue&2*/host/green;
       " | namerctl dtab create internal -
     fi
 ---
